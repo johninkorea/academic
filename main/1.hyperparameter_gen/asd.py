@@ -32,7 +32,7 @@ y_test=y[idx_test]
 
 plt.scatter(x_train,y_train,s=1,c='r')
 plt.scatter(x_test,y_test,s=1,c='b')
-plt.show()
+# plt.show()
 
 ## device choice
 device = 'mps' if torch.backends.mps.is_built()  else 'cpu'
@@ -60,7 +60,7 @@ class NN(nn.Module):
             nn.Linear(self.num1,self.num1),
             nn.ReLU())
         self.layer_out = nn.Sequential(
-            nn.Linear(self.num1,1),
+            nn.Linear(self.num1,10),
             # nn.ReLU()) # 이거로 하면 바로 0으로 가서 학습하는게 의미 없어짐
             nn.Sigmoid()) # 20번 학습하면 1e-9 order로 수렴함
 
@@ -79,6 +79,7 @@ class NN(nn.Module):
             out = layer(out)
         out = self.layer_out(out)
         # out=self.fc1(out)
+        out = out.view(10, 10)
         return out
 
 ## set hyper parameter
@@ -88,7 +89,7 @@ batch_size = 10
 
 ## model define
 nodes_per_hidden_layer=12
-number_of_hidden_layer=2
+number_of_hidden_layer=3
 model = NN(nodes_per_hidden_layer,number_of_hidden_layer).to(device)
 
 optimizer = opt.Adam(model.parameters(), lr=lr)
@@ -142,7 +143,7 @@ for epoch in range(epochs):
 
 
 plt.plot(range(epochs),costh)
-plt.show()
+# plt.show()
 
 
 
