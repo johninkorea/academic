@@ -10,7 +10,7 @@ hyper parameter for optimization
 --> # of hidden layers, activation function, # of epochs, batch size, learning rate with scheduler
 
 
-
+activation function도 custom하면 좋겠음.
 
 
 
