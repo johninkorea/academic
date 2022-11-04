@@ -1,4 +1,3 @@
-# %%
 ## imports
 import numpy as np
 import matplotlib.pyplot as plt
@@ -17,7 +16,6 @@ seed=1
 torch.manual_seed(seed)
 np.random.seed(seed)
 
-# %%
 ## create data
 N=int(1e2) # number of data
 x=np.linspace(-.9,.9,N)
@@ -36,7 +34,6 @@ plt.scatter(x_train,y_train,s=1,c='r')
 plt.scatter(x_test,y_test,s=1,c='b')
 plt.show()
 
-# %%
 ## device choice
 device = 'mps' if torch.backends.mps.is_built()  else 'cpu'
 device = 'cpu'
@@ -48,7 +45,6 @@ device = 'cpu'
 
 print("learning with",device)
 
-# %%
 # 신경망 정의
 class NN(nn.Module):
     def __init__(self, num1, num2):#, batch):
@@ -85,11 +81,10 @@ class NN(nn.Module):
         # out=self.fc1(out)
         return out
 
-# %%
 ## set hyper parameter
 lr=1e-2
 epochs=20
-batch_size = 1
+batch_size = 10
 
 ## model define
 nodes_per_hidden_layer=12
@@ -100,7 +95,6 @@ optimizer = opt.Adam(model.parameters(), lr=lr)
 
 criterion = torch.nn.MSELoss().to(device)
 
-# %%
 ## set data
 from torch.utils.data import TensorDataset, DataLoader
 # array to tensor
@@ -118,7 +112,6 @@ test = DataLoader(ds_test, batch_size=batch_size, shuffle=False)
 total_batch = len(train)
 
 
-# %%
 ## train
 costh=[]
 for epoch in range(epochs):
@@ -148,13 +141,11 @@ for epoch in range(epochs):
     costh.append(avg_cost)
 
 
-# %%
 plt.plot(range(epochs),costh)
 plt.show()
 
 
 
-# %%
 # torch.save(model, "./gpu_model_save.pth")
 # model_c = torch.load("./gpu_model_save.pth", map_location=device)
 # model_c.eval() # 모델 활성화!
