@@ -1,4 +1,4 @@
-# Optimizing parameters using genetic algorithms
+# Optimizing parameters by using genetic algorithms
 
 "Workshop for Korea-UK AI/ML Research in Fundamental Sciences"에서
 Ben Winter의 "Grammatical Neuroevolution" 발표를 보고 아이디어를 얻음.
