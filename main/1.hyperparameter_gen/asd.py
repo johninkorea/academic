@@ -79,13 +79,13 @@ class NN(nn.Module):
             out = layer(out)
         out = self.layer_out(out)
         # out=self.fc1(out)
-        out = out.view(10, 10)
+        # out = out.view(10, 10)
         return out
 
 ## set hyper parameter
 lr=1e-2
 epochs=20
-batch_size = 10
+batch_size = 1
 
 ## model define
 nodes_per_hidden_layer=12
