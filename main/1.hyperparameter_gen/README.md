@@ -24,5 +24,5 @@ hyper parameter for optimization
 
 -->https://discuss.pytorch.org/t/runtimeerror-mat1-and-mat2-shapes-cannot-be-multiplied-64x13056-and-153600x2048/101315/18   (여기확인해봐)
 
-
+일단 유전알고리즘으로 넘어가자
 
