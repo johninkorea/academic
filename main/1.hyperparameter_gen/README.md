@@ -18,11 +18,3 @@ hyper parameter for optimization
 --> # of hidden layers, activation function, # of epochs, batch size, learning rate with scheduler
 
 
-<현황>
-
-신경망 다 만들었는데 btch size가1일때만 돌아
-
--->https://discuss.pytorch.org/t/runtimeerror-mat1-and-mat2-shapes-cannot-be-multiplied-64x13056-and-153600x2048/101315/18   (여기확인해봐)
-
-일단 유전알고리즘으로 넘어가자
-
