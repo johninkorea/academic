@@ -83,12 +83,12 @@ def nnn(hyper):
     learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden = hyper
     
     ## model define
-    lr=float(learingrate)
-    epochs=int(number_of_epoch)
+    lr=learingrate
+    epochs=number_of_epoch
     batch_size = 1
 
-    nodes_per_hidden_layer=int(nodes_per_hidden)
-    number_of_hidden_layer=int(number_of_hidden)
+    nodes_per_hidden_layer=nodes_per_hidden
+    number_of_hidden_layer=number_of_hidden
     model = NN(nodes_per_hidden_layer,number_of_hidden_layer).to(device)
 
     optimizer = opt.Adam(model.parameters(), lr=lr)
@@ -109,7 +109,7 @@ def nnn(hyper):
     # ds_test = TensorDataset(test_data, test_label)
     # test = DataLoader(ds_test, batch_size=batch_size, shuffle=False)
 
-    print("train stat")
+    # print(f"train stat: {hyper}")
     ## train
     costh=[]
     for epoch in range(epochs):
@@ -137,5 +137,5 @@ def nnn(hyper):
     # plt.plot(range(epochs),costh)
     # plt.show()
 
-    print(f"train done:  {costh[-1]}")
+    # print("train done")
     return costh[-1]
