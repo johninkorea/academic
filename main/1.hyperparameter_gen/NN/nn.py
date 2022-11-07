@@ -18,9 +18,9 @@ def nnn(hyper):
     np.random.seed(seed)
 
     ## create data
-    N=int(1e2) # number of data
-    x=np.linspace(-.9,.9,N)
-    y=np.sin(x)
+    N=int(1e1) # number of data
+    x=np.linspace(.001,20,N)
+    y=np.sin(x)/x
 
     idx_train=(np.random.choice(N, int(N*.8), replace=0))
     # idx_test = np.setdiff1d(np.arange(N), idx_train)
