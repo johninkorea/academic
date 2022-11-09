@@ -15,9 +15,9 @@ hyper=np.array([1, 2, 3, 4],dtype=float)
 
 def fitness_func(solution, solution_idx):
 
-    abs_error = nnn(solution) + 0.00000001
+    abs_error = nnn(10, solution) + 0.00000001
 
-    solution_fitness = 1.0 / abs_error
+    solution_fitness = 1.0 / abs_error # 학습이 너무 잘되서 변화가 없다는거 같음....
 
     return solution_fitness
 fitness_function = fitness_func

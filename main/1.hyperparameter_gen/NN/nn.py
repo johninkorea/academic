@@ -11,14 +11,14 @@ import torch.nn.functional as F
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 
-def nnn(hyper):
+def nnn(N,hyper):
     ## set seed
     seed=1
     torch.manual_seed(seed)
     np.random.seed(seed)
 
     ## create data
-    N=int(1e1) # number of data
+    N=int(N) # number of data
     x=np.linspace(.001,20,N)
     y=np.sin(x)/x
 
@@ -136,6 +136,8 @@ def nnn(hyper):
 
     # plt.plot(range(epochs),costh)
     # plt.show()
+
+    # 학습이 너무 잘되는 거라면 model을 실젤 그려 봐서 학습이 너무 잘되는 것이 맞는지 보자
 
     # print("train done")
     return costh[-1]
