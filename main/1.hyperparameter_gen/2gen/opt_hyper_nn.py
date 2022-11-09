@@ -15,7 +15,7 @@ hyper=np.array([1, 2, 3, 4],dtype=float)
 
 def fitness_func(solution, solution_idx):
 
-    abs_error = nnn(10, solution) + 0.00000001
+    abs_error = nnn(5, solution) + 0.00000001
 
     solution_fitness = 1.0 / abs_error # 학습이 너무 잘되서 변화가 없다는거 같음....
 
@@ -33,15 +33,15 @@ def callback_generation(ga_instance):
     last_fitness = ga_instance.best_solution()[1]
     # print("*"*30)
 
-ga_instance = pygad.GA(num_generations=1000,
-                       sol_per_pop=100,
-                       num_parents_mating=50,
-                       mutation_type=None,
+ga_instance = pygad.GA(num_generations=20,
+                       sol_per_pop=10,
+                       num_parents_mating=5,
+                       mutation_type='random',
                        parent_selection_type = "sss",
                        fitness_func=fitness_function,
                        num_genes=len(hyper),
                        on_generation=callback_generation,
-                       gene_space=[{'low': 1e-3, 'high': 10}, {'low': 1, 'high': 10}, {'low': 1, 'high': 10}, {'low': 1, 'high': 10}],
+                       gene_space=[{'low': 1e-4, 'high': 1e-2}, {'low': 1, 'high': 5}, {'low': 1, 'high': 2}, {'low': 1, 'high': 3}],
                        gene_type=[float, int, int, int])
 
 
