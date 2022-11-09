@@ -19,7 +19,7 @@ def nnn(N,hyper):
 
     ## create data
     N=int(N) # number of data
-    x=np.linspace(.001,20,N)
+    x=np.linspace(.001,40,N)
     y=np.sin(x)/x
 
     idx_train=(np.random.choice(N, int(N*.8), replace=0))
