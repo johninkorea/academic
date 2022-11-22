@@ -1,12 +1,13 @@
 import pygad
 import numpy as np
 import matplotlib.pyplot as plt
-
-N=int(1e2)
-data=np.empty([N,4], dtype=float)
-generations=[]
+from PIL import Image
 
 ## funcations
+def save_gif_PIL(outfile, files, fps=5, loop=0):
+    "Helper function for saving GIFs"
+    imgs = [Image.open(file) for file in files]
+    imgs[0].save(fp=outfile, format='GIF', append_images=imgs[1:], save_all=True, duration=int(1000/fps), loop=loop)
 def goal_fitness_func(solution, solution_idx): # calculate solutions fitness
     output = np.power(hyper-solution,2)
     fitness = 1.0 / (np.sum(output) + 0.000001)
@@ -17,7 +18,6 @@ def callback_generation(ga_instance):
     print(f"Generation = {ga_instance.generations_completed}"+'***********************')
     print(f"Fitness    = {ga_instance.best_solution()[1]}")
     print(f"Change     = {ga_instance.best_solution()[1] - last_fitness}")
-    # print(ga_instance.pop)
     last_fitness = ga_instance.best_solution()[1]
 
 # Goal
@@ -25,17 +25,17 @@ hyper=np.array([1, 2, 3, 4],dtype=float)
 
 ## Conditions
 # population
-num_generations=100
-sol_per_pop=4 # number of population in generation
+num_generations=10
+sol_per_pop=1000 # number of population in generation
 num_parents_mating=int(sol_per_pop/2) # how much parents will match
 num_genes=len(hyper)
 
 # condition of each gen
-gene_space=[{'low': 1, 'high': 10}, {'low': 1, 'high': 10}, {'low': 1, 'high': 10}, {'low': 1, 'high': 10}]
-gene_type=[int, int, int, int]
+gene_space=[{'low': 0, 'high': 5}, {'low': 0, 'high': 5}, {'low': 0, 'high': 5}, {'low': 0, 'high': 5}]
+gene_type=[float, float, float, float]
 
 # technic
-parent_selection_type = 'rank' # sss: steady-state, rws: roulette wheel, sus: stochastic universal, rank: rank, random: random, tournament: tournament
+parent_selection_type = 'sss' # sss: steady-state, rws: roulette wheel, sus: stochastic universal, rank: rank, random: random, tournament: tournament
 crossover_type="single_point" # single_point: single-point crossover(defult), two_points: two points crossover, uniform: uniform crossover, scattered: scattered crossover
 mutation_type="swap" # random(defaults), swap, inversion, scramble, adaptive, None
 # mutation_by_replacement=False # bool parameter. it's only works when mutation_type="random". True: replace the gene by the randomly generated value. False: adding the random value to the gene.
@@ -45,11 +45,11 @@ mutation_num_genes=None # Number of genes to mutate which defaults to None meani
 # random_mutation_min or max_val=-1.0 # For random mutation, the random_mutation_min_val parameter specifies the start and end value of the range from which a random value is selected to be added to the gene. It defaults to -1. Starting from PyGAD 2.2.2 and higher, this parameter has no action if mutation_type is None.
 
 fitness_func=goal_fitness_func
-on_generation=callback_generation
+on_generation=None# callback_generation
 
-seed=1 # None 1114
+seed=None # None 1114
 parallel=['thread', 2]
-save_best=False
+save_best=True
 
 ## define gen model
 ga_instance = pygad.GA(num_generations=num_generations,
