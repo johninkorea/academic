@@ -8,9 +8,9 @@ seed=1114
 np.random.seed(seed)
 torch.manual_seed(seed)
 
-def pinn(hyper, gif=False):
+def pinn(hyper, generations, gif=False):
     learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden = hyper
-    learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden = float(learingrate), int(number_of_epoch), int(nodes_per_hidden), int(number_of_hidden)
+    # learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden = float(learingrate), int(number_of_epoch), int(nodes_per_hidden), int(number_of_hidden) # ㅇ어레이를 인풋으로 할  때
     # 1e-4 .        15000               32                  3
     def save_gif_PIL(outfile, files, fps=5, loop=0):
         "Helper function for saving GIFs"
@@ -80,15 +80,14 @@ def pinn(hyper, gif=False):
     ## create data to train
     d, w0 = 1.5, 15
     # get the analytical solution over the full domain
-    # x = torch.linspace(0,1,500).view(-1,1) # 0차원을 1차원으로 만들어 주는
-    x = torch.linspace(0,1,500) # 0차원을 1차원으로 만들어 주는
-    # y = oscillator(d, w0, x).view(-1,1)
-    y = oscillator(d, w0, x)
+    x = torch.linspace(0,1,500).view(-1,1) # 0차원을 1차원으로 만들어 주는
+    y = oscillator(d, w0, x).view(-1,1)
 
     # slice out a small number of points from the LHS of the domain
     index=np.random.choice(np.arange(len(x)), replace=0, size=10)
     x_data = x[index]
     y_data = y[index]
+    # print(x_data.shape, y_data.shape)
 
     ## pinn
     x_physics = torch.linspace(0,1,30).view(-1,1).requires_grad_(True)# sample locations over the problem domain
@@ -100,6 +99,7 @@ def pinn(hyper, gif=False):
     optimizer = torch.optim.Adam(model.parameters(),lr=learingrate)
     files = []
     for i in range(number_of_epoch):
+        print(f"{generations}gen\tepoch: \t{i}/{number_of_epoch}")
         optimizer.zero_grad()
         
         # compute the "data loss"
@@ -125,11 +125,12 @@ def pinn(hyper, gif=False):
             yh = model(x).detach()
             xp = x_physics.detach()
             
-            plot_result(x,y,x_data,y_data,yh,xp)
-            
             file = "plots/pinn_%.8i.png"%(i+1)
             files.append(file)
+            
+            
             if gif == True:
+                plot_result(x,y,x_data,y_data,yh,xp)
                 plt.savefig(file, bbox_inches='tight', pad_inches=0.1, dpi=100, facecolor="white")
             
             # if (i+1) % 6000 == 0: plt.show()
@@ -137,10 +138,11 @@ def pinn(hyper, gif=False):
     if gif == True:
         save_gif_PIL("result/pinn.gif", files, fps=20, loop=0)
 
-    return loss
+    return loss.item()
 
 
 
 
-hyper=np.array([1e-4,15000,32,3])
-pinn(hyper=hyper, gif=False)
+# hyper=np.array([1e-4,15000,32,3])
+# asd=pinn(hyper=hyper, gif=False)
+# print(asd)
