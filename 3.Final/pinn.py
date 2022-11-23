@@ -101,6 +101,7 @@ def pinn(hyper, generations, gif=False):
 
     ## pinn
     x_physics = torch.linspace(0,1,30).view(-1,1).requires_grad_(True)# sample locations over the problem domain
+    x_physics = torch.Tensor.cuda(x_physics)
     mu, k = 2*d, w0**2
 
     # os.system("mkdir plots")
