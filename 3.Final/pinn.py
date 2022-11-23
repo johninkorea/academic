@@ -97,7 +97,7 @@ def pinn(hyper, generations, gif=False):
     y_data = y[index]
     x_data = torch.Tensor.cuda(x_data)
     y_data = torch.Tensor.cuda(y_data)
-    # print(x_data.shape, y_data.shape)
+    print(x_data, y_data)
 
     ## pinn
     x_physics = torch.linspace(0,1,30).view(-1,1).requires_grad_(True)# sample locations over the problem domain
