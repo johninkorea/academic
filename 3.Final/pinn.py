@@ -38,7 +38,7 @@ def pinn(hyper, generations, gif=False):
         plt.ylim(-1.1, 1.1)
         plt.text(.6,0.8,"Training step: %i"%(i+1),fontsize="xx-large",color="k")
         # plt.axis("off")
-    def oscillator(d, w0, x):
+    def oscillator(d, w0, x) -> torch.Tensor:
         """Defines the analytical solution to the 1D underdamped harmonic oscillator problem. 
         Equations taken from: https://beltoforion.de/en/harmonic_oscillator/"""
         assert d < w0
