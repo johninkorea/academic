@@ -97,7 +97,6 @@ def pinn(hyper, generations, gif=False):
     y_data = y[index]
     x_data = torch.Tensor.cuda(x_data)
     y_data = torch.Tensor.cuda(y_data)
-    print(x_data, y_data)
 
     ## pinn
     x_physics = torch.linspace(0,1,30).view(-1,1).requires_grad_(True)# sample locations over the problem domain
@@ -107,9 +106,7 @@ def pinn(hyper, generations, gif=False):
     # os.system("mkdir plots")
 
     model = FCN(1,1,nodes_per_hidden,number_of_hidden).to(device)
-    print("model: ",model)
     criterion = torch.nn.MSELoss().to(device)
-    print("criterion: ",criterion)
     optimizer = torch.optim.Adam(model.parameters(),lr=learingrate)
     files = []
     for i in range(number_of_epoch):
