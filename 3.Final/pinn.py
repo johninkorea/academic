@@ -59,27 +59,27 @@ def pinn(hyper, generations, gif=False):
                             nn.Linear(N_INPUT, N_HIDDEN),
                             activation()])
             ########################################################################
-            # self.fch = nn.Sequential(*[
-            #                 nn.Sequential(*[
-            #                     nn.Linear(N_HIDDEN, N_HIDDEN),
-            #                     activation()]) for _ in range(N_LAYERS-1)])
+            self.fch = nn.Sequential(*[
+                            nn.Sequential(*[
+                                nn.Linear(N_HIDDEN, N_HIDDEN),
+                                activation()]) for _ in range(N_LAYERS-1)])
             ########################################################################
-            self.layer_hidden = nn.Sequential(
-                nn.Linear(N_HIDDEN,N_HIDDEN),
-                nn.ReLU())
-            self.hidden=nn.ModuleList()
-            for i in range(N_LAYERS):
-                self.hidden.append(self.layer_hidden)
+            # self.layer_hidden = nn.Sequential(
+            #     nn.Linear(N_HIDDEN,N_HIDDEN),
+            #     nn.ReLU())
+            # self.hidden=nn.ModuleList()
+            # for i in range(N_LAYERS):
+            #     self.hidden.append(self.layer_hidden)
             ########################################################################
             self.fce = nn.Linear(N_HIDDEN, N_OUTPUT)
 
         def forward(self, x):
             x = self.fcs(x)
             ########################################################################
-            # x = self.fch(x)
+            x = self.fch(x)
             ########################################################################
-            for layer in self.hidden:
-                x = layer(x)
+            # for layer in self.hidden:
+            #     x = layer(x)
             ########################################################################
             x = self.fce(x)
             return x
