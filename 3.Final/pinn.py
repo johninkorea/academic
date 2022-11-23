@@ -38,7 +38,7 @@ def pinn(hyper, generations, gif=False):
         plt.ylim(-1.1, 1.1)
         plt.text(.6,0.8,"Training step: %i"%(i+1),fontsize="xx-large",color="k")
         # plt.axis("off")
-    def oscillator(d, w0, x) -> torch.Tensor:
+    def oscillator(d, w0, x):
         """Defines the analytical solution to the 1D underdamped harmonic oscillator problem. 
         Equations taken from: https://beltoforion.de/en/harmonic_oscillator/"""
         assert d < w0
@@ -95,6 +95,8 @@ def pinn(hyper, generations, gif=False):
     index=np.random.choice(np.arange(len(x)), replace=0, size=10)
     x_data = x[index]
     y_data = y[index]
+    x_data = torch.Tensor.cuda(x_data)
+    y_data = torch.Tensor.cuda(y_data)
     # print(x_data.shape, y_data.shape)
 
     ## pinn
@@ -110,15 +112,10 @@ def pinn(hyper, generations, gif=False):
     for i in range(number_of_epoch):
         print(f"{generations}gen\tepoch: \t{i}/{number_of_epoch}")
         optimizer.zero_grad()
-
-        x_data=x_data.to(device)
-        yh = model(x_data)
         
         # compute the "data loss"
-        print(model)
-        print(yh)
-        print(y_data)
-        loss1 = criterion(yh,y_data.to(device))
+        yh = model(x_data.to(device))
+        loss1 = criterion(yh,y_data)
         # loss1 = torch.mean((yh-y_data)**2).to(device)# use mean squared error
         
         # compute the "physics loss"
