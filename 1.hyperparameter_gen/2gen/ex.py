@@ -73,7 +73,7 @@ ga_instance.run()
 
 solution, solution_fitness, solution_idx = ga_instance.best_solution()
 ## show results
-ga_instance.plot_fitness()
+# ga_instance.plot_fitness()
 # print(len(ga_instance.population))
 print(f"Parameters of the best solution : {solution}")
 print(f"Fitness value of the best solution = {solution_fitness}")
@@ -101,9 +101,16 @@ while z<len(data):
         file = f"img/nn_{z}.png"
         files.append(file)
         plt.axis([0,5,0,5])
-        plt.text(.5, 4.5, f"{z} Generation")
-        plt.scatter(hyper, hyper,c='r',label="Goal")
-        plt.scatter(hyper, data[z], alpha=1,c='b',label="Best Solution")
+        plt.grid()
+        
+        plt.scatter(hyper, hyper, marker="s", c='r', label="Goal")
+        plt.scatter(hyper, data[z], marker="*", alpha=1,c='b',label="Best Solution")
+        
+        plt.text(.5, 4.5, f"{z} ", size=15)
+        plt.text(.95, 4.5, f"Generation", size=10)
+        
+        plt.ylabel("value", size=15)
+        plt.xlabel("gene index", size=15)
         plt.legend(loc='lower right')
         plt.savefig(file, bbox_inches='tight', pad_inches=0.1, dpi=100, facecolor="white")
         plt.cla()
