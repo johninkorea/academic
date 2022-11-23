@@ -147,7 +147,7 @@ os.system("mkdir plots")
 model = FCN(1,1,32,3)
 optimizer = torch.optim.Adam(model.parameters(),lr=1e-4)
 files = []
-for i in range(20000):
+for i in range(15000):
     optimizer.zero_grad()
     
     # compute the "data loss"
@@ -168,7 +168,7 @@ for i in range(20000):
     
     
     # plot the result as training progresses
-    if (i+1) % 100 == 0: 
+    if (i+1) % 150 == 0: 
         
         yh = model(x).detach()
         xp = x_physics.detach()
