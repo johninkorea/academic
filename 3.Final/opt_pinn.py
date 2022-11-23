@@ -31,7 +31,7 @@ def callback_generation(ga_instance):
 
 ## Conditions
 # population
-num_generations=10
+num_generations=3
 sol_per_pop=2#20 # number of population in generation
 num_parents_mating=int(sol_per_pop/2) # how much parents will match
 num_genes=len(equation_inputs)
