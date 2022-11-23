@@ -109,10 +109,15 @@ def pinn(hyper, generations, gif=False):
     files = []
     for i in range(number_of_epoch):
         print(f"{generations}gen\tepoch: \t{i}/{number_of_epoch}")
+
         optimizer.zero_grad()
         
         # compute the "data loss"
-        yh = model(x_data.to(device))
+        print(model)
+        print(yh)
+        print(y_data)
+        x_data=x_data.to(device)
+        yh = model(x_data)
         loss1 = criterion(yh,y_data.to(device))
         # loss1 = torch.mean((yh-y_data)**2).to(device)# use mean squared error
         
