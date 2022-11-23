@@ -1,8 +1,6 @@
 import numpy as np
-
 import torch
 import torch.nn as nn
-
 from PIL import Image
 import matplotlib.pyplot as plt
 
@@ -81,68 +79,11 @@ x_data = x[index]
 y_data = y[index]
 print(x_data.shape, y_data.shape)
 
-# plt.figure(figsize=(8,5))
-# plt.plot(x, y, c="gray", label="Exact solution")
-# plt.scatter(x_data, y_data, marker="s", color="r", label="Training data")
-# l = plt.legend(loc=(1.01,0.34), frameon=False, fontsize="large")
-# plt.setp(l.get_texts(), color="k")
-# plt.xlim(-0.05, 1.05)
-# plt.xlim(-0., 1.)
-# plt.ylim(-1.1, 1.1)
-# # plt.axis("off")
-# plt.xlabel("Time", size=20)
-# plt.ylabel("Displacement", size=20)
-# plt.legend(loc='lower right')
-# plt.savefig("result/traing_data_with_exact_sol.png")
-
-
-    
-## NN
-# train standard neural network to fit training data
-torch.manual_seed(123)
-model = FCN(1,1,32,3)
-optimizer = torch.optim.Adam(model.parameters(),lr=1e-3)
-import os
-os.system("mkdir plots")
-files = []
-
-for i in range(2500):
-    optimizer.zero_grad()
-    yh = model(x_data)
-    loss = torch.mean((yh-y_data)**2)# use mean squared error
-    loss.backward()
-    optimizer.step()
-    
-    
-    # plot the result as training progresses
-    if (i+1) % 10 == 0: 
-        
-        yh = model(x).detach()
-        
-        plot_result(x,y,x_data,y_data,yh)
-        
-        file = f"plots/nn_{i+1}.png"
-        plt.savefig(file, bbox_inches='tight', pad_inches=0.1, dpi=100, facecolor="white")
-        files.append(file)
-    
-        # if (i+1) % 500 == 0: plt.show()
-        # else: plt.close("all")
-            
-save_gif_PIL("result/nn.gif", files, fps=20, loop=0)
-
-
-
-
-
-
-
 ## pinn
 x_physics = torch.linspace(0,1,30).view(-1,1).requires_grad_(True)# sample locations over the problem domain
 mu, k = 2*d, w0**2
 
-
-os.system("mkdir plots")
-
+# os.system("mkdir plots")
 
 model = FCN(1,1,32,3)
 optimizer = torch.optim.Adam(model.parameters(),lr=1e-4)
