@@ -21,14 +21,7 @@ def plot_result(x,y,x_data,y_data,yh,xp=None):
     plt.plot(x,y, color="gray", linewidth=2, alpha=0.8, label="Exact solution")
     plt.plot(x,yh, color="tab:blue", linewidth=4, alpha=0.8, label="Neural network prediction")
     plt.scatter(x_data, y_data, marker="s", color="r", alpha=0.4, label='Training data')
-    
-    # if xp is not None:
-    #     plt.scatter(xp, -0*torch.ones_like(xp), s=60, color="tab:green", alpha=0.4, 
-    #                 label='Physics loss training locations')
-    
-    # plt.legend(loc=(1.01,0.34), frameon=False, fontsize="large")
     plt.legend(loc='lower right')
-    # plt.setp(l.get_texts(), color="k")
     plt.xlabel("Time", size=20)
     plt.ylabel("Displacement", size=20)
     plt.xlim(-0.05, 1.05)
@@ -106,7 +99,7 @@ import os
 os.system("mkdir plots")
 files = []
 
-for i in range(2500):
+for i in range(15000):
     optimizer.zero_grad()
     yh = model(x_data)
     loss = torch.mean((yh-y_data)**2)# use mean squared error
@@ -168,7 +161,7 @@ for i in range(15000):
     
     
     # plot the result as training progresses
-    if (i+1) % 150 == 0: 
+    if (i+1) % 10 == 0: 
         
         yh = model(x).detach()
         xp = x_physics.detach()
