@@ -105,7 +105,7 @@ def pinn(hyper, generations, gif=False):
     # os.system("mkdir plots")
 
     model = FCN(1,1,nodes_per_hidden,number_of_hidden).to(device)
-    optimizer = torch.optim.Adam(model.parameters(),lr=learingrate).to(device)
+    optimizer = torch.optim.Adam(model.parameters(),lr=learingrate)
     files = []
     for i in range(number_of_epoch):
         print(f"{generations}gen\tepoch: \t{i}/{number_of_epoch}")
@@ -113,7 +113,8 @@ def pinn(hyper, generations, gif=False):
         
         # compute the "data loss"
         yh = model(x_data.to(device))
-        loss1 = torch.mean((yh-y_data)**2)# use mean squared error
+        loss1 = torch.nn.MSELoss(yh-y_data).to(device)# use mean squared error
+        # loss1 = torch.mean((yh-y_data)**2)# use mean squared error
         
         # compute the "physics loss"
         yhp = model(x_physics)
