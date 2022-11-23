@@ -112,8 +112,8 @@ def pinn(hyper, generations, gif=False):
         
         # compute the "data loss"
         yh = model(x_data.to(device))
-        # loss1 = torch.nn.MSELoss(yh,y_data).to(device)# use mean squared error
-        loss1 = torch.mean((yh-y_data)**2).to(device)# use mean squared error
+        loss1 = torch.nn.MSELoss(yh,y_data).to(device)# use mean squared error
+        # loss1 = torch.mean((yh-y_data)**2).to(device)# use mean squared error
         
         # compute the "physics loss"
         yhp = model(x_physics)
