@@ -31,13 +31,13 @@ def callback_generation(ga_instance):
 
 ## Conditions
 # population
-num_generations=3
-sol_per_pop=2#20 # number of population in generation
+num_generations=100000
+sol_per_pop=20#20 # number of population in generation
 num_parents_mating=int(sol_per_pop/2) # how much parents will match
 num_genes=len(equation_inputs)
 
 # condition of each gen
-gene_space=[{'low': 1e-4, 'high': 1e-1}, {'low': 1, 'high': 10000}, {'low': 1, 'high': 30}, {'low': 1, 'high': 20}]
+gene_space=[{'low': 1e-4, 'high': 1e-1}, {'low': 1, 'high': 100000}, {'low': 1, 'high': 30}, {'low': 1, 'high': 20}]
 gene_type=[float, int, int, int]
 fitness_function = fitness_func
 
