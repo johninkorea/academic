@@ -134,7 +134,7 @@ def pinn(hyper, generations, gif=False):
         # plot the result as training progresses
         if (i+1) % 150 == 0: 
             
-            yh = model(x).detach()
+            yh = model(x.to(device)).detach()
             xp = x_physics.detach()
             
             file = "plots/pinn_%.8i.png"%(i+1)
