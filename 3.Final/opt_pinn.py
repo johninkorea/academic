@@ -54,7 +54,7 @@ gene_space=[{'low': learingrate_min, 'high': learingrate_max},
             {'low': number_of_epoch_min, 'high': number_of_epoch_max}, 
             {'low': nodes_per_hidden_min, 'high': nodes_per_hidden_max}, 
             {'low': number_of_hidden_min, 'high': number_of_hidden_max}]
-gene_type=[float, int, int, int]
+# gene_type=[float, int, int, int]
 
 # technic
 parent_selection_type = 'sss' # sss: steady-state, rws: roulette wheel, sus: stochastic universal, rank: rank, random: random, tournament: tournament
