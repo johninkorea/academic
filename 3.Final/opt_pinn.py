@@ -83,7 +83,7 @@ ga_instance = pygad.GA(initial_population=initial_pop,
                     # num_genes=num_genes,
                     on_generation=on_generation,
                     gene_space=gene_space,
-                    gene_type=gene_type,
+                    # gene_type=gene_type,
                     random_seed=seed,
                     parallel_processing=parallel,
                     save_best_solutions=save_best)
