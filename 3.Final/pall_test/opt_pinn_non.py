@@ -2,6 +2,7 @@ import pygad
 import numpy as np
 import sys, os
 from pinn import pinn
+import time as T
 
 equation_inputs=np.array([1, 2, 3, 4],dtype=float)
 
@@ -47,7 +48,7 @@ seed=1114 # None 1114
 parallel=None
 save_best=False
 
-
+s=T.time()
 ga_instance = pygad.GA(num_generations=num_generations,
                     sol_per_pop=sol_per_pop,
                     num_parents_mating=num_parents_mating,
@@ -63,8 +64,10 @@ ga_instance = pygad.GA(num_generations=num_generations,
                     save_best_solutions=save_best)
 # print(ga_instance.population)
 ga_instance.run()
+f=T.time()
 
 # plot result
+print("time: ",f-s)
 # ga_instance.plot_fitness() 
 solution, solution_fitness, solution_idx = ga_instance.best_solution()
 print("Parameters of the best solution : {solution}".format(solution=solution))
