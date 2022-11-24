@@ -3,41 +3,31 @@ import numpy as np
 import sys, os
 from pinn import pinn
 
-
-# hyper=np.array([1e-4,15000,32,3])
-# learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden
-# asd=pinn(hyper=hyper, gif=False)
-# print(asd)
-
-
-
 equation_inputs=np.array([1, 2, 3, 4],dtype=float)
-
 
 def fitness_func(solution, solution_idx):
     abs_error = pinn(solution, ga_instance.generations_completed, False) + 0.00000001
     solution_fitness = 1.0 / abs_error # 학습이 너무 잘되서 변화가 없다는거 같음....
     return solution_fitness
-
 last_fitness = 0
 def callback_generation(ga_instance):
     global last_fitness
     print(f"Generation = {ga_instance.generations_completed}"+"*********************************")
     # print(ga_instance.population) # print population
     print("Fitness    = {fitness}".format(fitness=ga_instance.best_solution()[1]))
-    # print("Change     = {change}".format(change=ga_instance.best_solution()[1] - last_fitness))
+    print("Change     = {change}".format(change=ga_instance.best_solution()[1] - last_fitness))
     last_fitness = ga_instance.best_solution()[1]
     # print("*"*30)
 
 ## Conditions
 # population
-num_generations=100000
-sol_per_pop=20#20 # number of population in generation
+num_generations=10
+sol_per_pop=5 # number of population in generation
 num_parents_mating=int(sol_per_pop/2) # how much parents will match
 num_genes=len(equation_inputs)
 
 # condition of each gen
-gene_space=[{'low': 1e-4, 'high': 1e-1}, {'low': 1, 'high': 100000}, {'low': 1, 'high': 30}, {'low': 1, 'high': 20}]
+gene_space=[{'low': 1e-4, 'high': 1e-1}, {'low': 1, 'high': 1000}, {'low': 1, 'high': 10}, {'low': 1, 'high': 10}]
 gene_type=[float, int, int, int]
 fitness_function = fitness_func
 
@@ -54,7 +44,7 @@ mutation_percent_genes= 5# "default" # Percentage of genes to mutate. It default
 on_generation=callback_generation  #None callback_generation
 
 seed=1114 # None 1114
-parallel=10
+parallel=None
 save_best=False
 
 
@@ -74,8 +64,8 @@ ga_instance = pygad.GA(num_generations=num_generations,
 # print(ga_instance.population)
 ga_instance.run()
 
-# ga_instance.plot_fitness() 
 # plot result
+# ga_instance.plot_fitness() 
 solution, solution_fitness, solution_idx = ga_instance.best_solution()
 print("Parameters of the best solution : {solution}".format(solution=solution))
 print("Fitness value of the best solution = {solution_fitness}".format(solution_fitness=solution_fitness))
