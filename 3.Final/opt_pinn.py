@@ -54,8 +54,10 @@ mutation_percent_genes= 5# "default" # Percentage of genes to mutate. It default
 on_generation=callback_generation  #None callback_generation
 
 seed=1114 # None 1114
-parallel=None
+parallel=10
 save_best=False
+
+
 ga_instance = pygad.GA(num_generations=num_generations,
                     sol_per_pop=sol_per_pop,
                     num_parents_mating=num_parents_mating,
