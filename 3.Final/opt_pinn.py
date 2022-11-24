@@ -39,11 +39,13 @@ def callback_generation(ga_instance):
 # population
 from numpy.random import uniform as uni
 pop=20
-initial_pop=np.array([
-    uni(learingrate_min, learingrate_max, pop),
-    uni(number_of_epoch_min, number_of_epoch_max, pop),
-    uni(nodes_per_hidden_min, nodes_per_hidden_max, pop),
-    uni(number_of_hidden_min, number_of_hidden_max, pop)]).T
+a1=uni(learingrate_min, learingrate_max, pop)
+a2=uni(number_of_epoch_min, number_of_epoch_max, pop).astype("int")
+a3=uni(nodes_per_hidden_min, nodes_per_hidden_max, pop).astype("int")
+a4=uni(number_of_hidden_min, number_of_hidden_max, pop).astype("int")
+initial_pop=np.array([a1,a2,a3,a4]).T
+print(initial_pop)
+
 num_generations=100000
 # sol_per_pop=20#20 # number of population in generation
 num_parents_mating=int(len(initial_pop)/2) # how much parents will match
