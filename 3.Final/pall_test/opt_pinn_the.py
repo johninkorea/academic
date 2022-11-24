@@ -44,7 +44,7 @@ mutation_percent_genes= 5# "default" # Percentage of genes to mutate. It default
 on_generation=callback_generation  #None callback_generation
 
 seed=1114 # None 1114
-parallel=None
+parallel=["thread", 5]
 save_best=False
 
 
