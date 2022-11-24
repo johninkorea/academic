@@ -46,7 +46,7 @@ initial_pop=np.array([
     uni(number_of_hidden_min, number_of_hidden_max, pop)]).T
 num_generations=100000
 # sol_per_pop=20#20 # number of population in generation
-num_parents_mating=int(initial_pop/2) # how much parents will match
+num_parents_mating=int(len(initial_pop)/2) # how much parents will match
 # num_genes=len(equation_inputs)
 
 # condition of each gen
