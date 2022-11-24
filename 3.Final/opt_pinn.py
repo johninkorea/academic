@@ -23,9 +23,9 @@ last_fitness = 0
 def callback_generation(ga_instance):
     global last_fitness
     print(f"Generation = {ga_instance.generations_completed}"+"*********************************")
-    # print(ga_instance.population) # print population
+    print(ga_instance.population) # print population
     print("Fitness    = {fitness}".format(fitness=ga_instance.best_solution()[1]))
-    # print("Change     = {change}".format(change=ga_instance.best_solution()[1] - last_fitness))
+    print("Change     = {change}".format(change=ga_instance.best_solution()[1] - last_fitness))
     last_fitness = ga_instance.best_solution()[1]
     # print("*"*30)
 
@@ -54,7 +54,7 @@ mutation_percent_genes= 5# "default" # Percentage of genes to mutate. It default
 on_generation=callback_generation  #None callback_generation
 
 seed=1114 # None 1114
-parallel=10
+parallel=int(sol_per_pop)
 save_best=False
 
 

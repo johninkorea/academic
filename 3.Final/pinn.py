@@ -110,7 +110,7 @@ def pinn(hyper, generations, gif=False):
     optimizer = torch.optim.Adam(model.parameters(),lr=learingrate)
     files = []
     for i in range(number_of_epoch):
-        print(f"{generations}gen\tepoch: \t{i}/{number_of_epoch}")
+        # print(f"{generations}gen\tepoch: \t{i}/{number_of_epoch}")
         optimizer.zero_grad()
         
         # compute the "data loss"
