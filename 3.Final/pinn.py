@@ -18,7 +18,7 @@ print("learning with",device,"\n")
 
 def pinn(hyper, generations, gif=False):
     learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden = hyper
-    # learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden = float(learingrate), int(number_of_epoch), int(nodes_per_hidden), int(number_of_hidden) # ㅇ어레이를 인풋으로 할  때
+    learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden = float(learingrate), int(number_of_epoch), int(nodes_per_hidden), int(number_of_hidden) # ㅇ어레이를 인풋으로 할  때
     # 1e-4 .        15000               32                  3
     def save_gif_PIL(outfile, files, fps=5, loop=0):
         "Helper function for saving GIFs"
