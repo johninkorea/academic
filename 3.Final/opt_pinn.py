@@ -37,6 +37,7 @@ def callback_generation(ga_instance):
 
 ## Conditions
 # population
+############################################################################
 from numpy.random import uniform as uni
 pop=20
 a1=uni(learingrate_min, learingrate_max, pop)
@@ -44,24 +45,25 @@ a2=uni(number_of_epoch_min, number_of_epoch_max, pop).astype("int")
 a3=uni(nodes_per_hidden_min, nodes_per_hidden_max, pop).astype("int")
 a4=uni(number_of_hidden_min, number_of_hidden_max, pop).astype("int")
 initial_pop=np.array([a1,a2,a3,a4]).T
-print(initial_pop)
+# print(initial_pop)
+############################################################################
 
 num_generations=100000
-# sol_per_pop=20#20 # number of population in generation
+sol_per_pop=20#20 # number of population in generation
 num_parents_mating=int(len(initial_pop)/2) # how much parents will match
-# num_genes=len(equation_inputs)
+num_genes=len(equation_inputs)
 
 # condition of each gen
 gene_space=[{'low': learingrate_min, 'high': learingrate_max}, 
             {'low': number_of_epoch_min, 'high': number_of_epoch_max}, 
             {'low': nodes_per_hidden_min, 'high': nodes_per_hidden_max}, 
             {'low': number_of_hidden_min, 'high': number_of_hidden_max}]
-# gene_type=[float, int, int, int]
+gene_type=[float, int, int, int]
 
 # technic
 parent_selection_type = 'sss' # sss: steady-state, rws: roulette wheel, sus: stochastic universal, rank: rank, random: random, tournament: tournament
-crossover_type="single_point" # single_point: single-point crossover(defult), two_points: two points crossover, uniform: uniform crossover, scattered: scattered crossover
-mutation_type="swap" # random(defaults), swap, inversion, scramble, adaptive, None
+crossover_type="two_points" # single_point: single-point crossover(defult), two_points: two points crossover, uniform: uniform crossover, scattered: scattered crossover
+mutation_type="random" # random(defaults), swap, inversion, scramble, adaptive, None
 # mutation_by_replacement=False # bool parameter. it's only works when mutation_type="random". True: replace the gene by the randomly generated value. False: adding the random value to the gene.
 # mutation_probability=1 # value of take mutaion. 0~1. to replace this parameters, parameters mutation_percent_genes and mutation_num_genes can be used.
 mutation_percent_genes= 5# "default" # Percentage of genes to mutate. It defaults to the string "default" which is later translated into the integer 10 which means 10% of the genes will be mutated. It must be >0 and <=100. Out of this percentage, the number of genes to mutate is deduced which is assigned to the mutation_num_genes parameter. The mutation_percent_genes parameter has no action if mutation_probability or mutation_num_genes exist. Starting from PyGAD 2.2.2 and higher, this parameter has no action if mutation_type is None.
@@ -75,17 +77,17 @@ parallel=20
 save_best=False
 
 s=T.time()
-ga_instance = pygad.GA(initial_population=initial_pop,
+ga_instance = pygad.GA(#initial_population=initial_pop,
                     num_generations=num_generations,
-                    # sol_per_pop=sol_per_pop,
+                    sol_per_pop=sol_per_pop,
                     num_parents_mating=num_parents_mating,
                     mutation_type=mutation_type,
                     parent_selection_type =  parent_selection_type,
                     fitness_func=fitness_function,
-                    # num_genes=num_genes,
+                    num_genes=num_genes,
                     on_generation=on_generation,
                     gene_space=gene_space,
-                    # gene_type=gene_type,
+                    gene_type=gene_type,
                     random_seed=seed,
                     parallel_processing=parallel,
                     save_best_solutions=save_best)
