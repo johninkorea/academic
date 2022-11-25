@@ -9,7 +9,7 @@ np.random.seed(seed)
 
 # learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden
 learingrate_min, learingrate_max = 1e-4, 1e-1
-number_of_epoch_min, number_of_epoch_max = 1, 100#int(9e3)
+number_of_epoch_min, number_of_epoch_max = 1, int(9e3)
 nodes_per_hidden_min, nodes_per_hidden_max = 1, 20
 number_of_hidden_min, number_of_hidden_max = 1, 20
 
@@ -49,7 +49,7 @@ initial_pop=np.array([a1,a2,a3,a4]).T
 # print(initial_pop)
 ############################################################################
 
-num_generations=15#int(1e4)
+num_generations=int(1e4)
 sol_per_pop=pop # number of population in generation
 num_parents_mating=int(len(initial_pop)/2) # how much parents will match
 num_genes=len(equation_inputs)
@@ -107,3 +107,4 @@ print(f"Fitness value of the best solution = {solution_fitness}")
 print("Loss of pinn : ", lossf(solution_fitness))
 if ga_instance.best_solution_generation != -1:
     print(f"Best fitness value reached after {ga_instance.best_solution_generation} generations.")
+
