@@ -9,7 +9,7 @@ np.random.seed(seed)
 
 # learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden
 learingrate_min, learingrate_max = 1e-4, 1e-1
-number_of_epoch_min, number_of_epoch_max = 1, int(9e3)
+number_of_epoch_min, number_of_epoch_max = 1, 100#int(9e3)
 nodes_per_hidden_min, nodes_per_hidden_max = 1, 20
 number_of_hidden_min, number_of_hidden_max = 1, 20
 
