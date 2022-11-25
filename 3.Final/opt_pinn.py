@@ -49,7 +49,7 @@ initial_pop=np.array([a1,a2,a3,a4]).T
 # print(initial_pop)
 ############################################################################
 
-num_generations=int(1e4)
+num_generations=int(1e2)
 sol_per_pop=pop # number of population in generation
 num_parents_mating=int(len(initial_pop)/2) # how much parents will match
 num_genes=len(equation_inputs)
