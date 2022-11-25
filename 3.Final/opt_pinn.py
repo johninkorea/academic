@@ -16,7 +16,7 @@ number_of_hidden_min, number_of_hidden_max = 1, 20
 
 equation_inputs=np.array([1, 2, 3, 4],dtype=float)
 
-
+lossf=lambda solution_fitness:(1/solution_fitness)-0.00000001
 def fitness_func(solution, solution_idx):
     abs_error = pinn(solution, ga_instance.generations_completed, False) + 0.00000001
     solution_fitness = 1.0 / abs_error # 학습이 너무 잘되서 변화가 없다는거 같음....
@@ -26,15 +26,15 @@ last_fitness = 0
 def callback_generation(ga_instance):
     global last_fitness
     solution, solution_fitness, solution_idx = ga_instance.best_solution()
-    print(f"Generation = {ga_instance.generations_completed}"+"*********************************")
+    print(f"Generation = {ga_instance.generations_completed}"+"*"*50)
     print(ga_instance.population) # print population
+    print(f"Parameters of the best solution ({solution_idx}) : {solution}")
     print(f"Fitness    = {solution_fitness}")
     print(f"Change     = {solution_fitness - last_fitness}")
-    print(f"Parameters of the best solution : {solution}")
-    print(f"Index of the best solution : {solution_idx}")
+    print("Loss of best pinn : ", lossf(solution_fitness))
     if ga_instance.best_solution_generation != -1:
         print(f"Best fitness value reached after {ga_instance.best_solution_generation} generations.")
-    last_fitness = ga_instance.best_solution()[1]
+    last_fitness = ga_instance.best_solution()[1] # reset
 
 ## Conditions
 # population
@@ -97,15 +97,13 @@ ga_instance.run()
 f=T.time()
 
 # plot result
+####################################################################
+print("Total result"+"*"*60)
 print("time: ",f-s)
 # ga_instance.plot_fitness() 
 solution, solution_fitness, solution_idx = ga_instance.best_solution()
-print(f"Parameters of the best solution : {solution}")
+print(f"Parameters of the best solution ({solution_idx}) : {solution}")
 print(f"Fitness value of the best solution = {solution_fitness}")
-print(f"Index of the best solution : {solution_idx}")
+print("Loss of pinn : ", lossf(solution_fitness))
 if ga_instance.best_solution_generation != -1:
     print(f"Best fitness value reached after {ga_instance.best_solution_generation} generations.")
-
-
-loss=(1/solution_fitness)-0.00000001
-print("Loss of best pinn : ", loss)
