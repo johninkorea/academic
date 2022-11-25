@@ -1,9 +1,9 @@
 
 /3.Final/plot
 
-/3.Final/log*
+#/3.Final/log*
 
-/3.Final/pall_test/log*
+#/3.Final/pall_test/log*
 
 
 /2.PINN/mine/HO/plots
