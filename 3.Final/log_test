@@ -1,0 +1,30 @@
+learning with cuda 
+
+/home/rws/miniconda3/envs/torch/lib/python3.9/site-packages/pygad/pygad.py:486: UserWarning: The percentage of genes to mutate (mutation_percent_genes=10) resutled in selecting (0) genes. The number of genes to mutate is set to 1 (mutation_num_genes=1).
+If you do not want to mutate any gene, please set mutation_type=None.
+  if not self.suppress_warnings: warnings.warn("The percentage of genes to mutate (mutation_percent_genes={mutation_percent}) resutled in selecting ({mutation_num}) genes. The number of genes to mutate is set to 1 (mutation_num_genes=1).\nIf you do not want to mutate any gene, please set mutation_type=None.".format(mutation_percent=mutation_percent_genes, mutation_num=mutation_num_genes))
+Generation = 1**************************************************
+[[0.05234568717544758 17 12 17]
+ [0.05234568717544758 18 1 5]
+ [0.08757477471494739 68 2 2]
+ [0.08757477471494739 68 6 12]
+ [0.05440417165656789 2 2 6]
+ [0.08969191660211626 2 2 19]
+ [0.003884086825905536 95 10 12]
+ [0.020903044279068948 37 16 11]
+ [0.015204663447502043 13 15 6]
+ [0.015204663447502043 13 6 19]
+ [0.08211072797225864 95 15 17]
+ [0.05234568717544758 18 2 5]
+ [0.09498373103093528 68 2 14]
+ [0.08757477471494739 63 6 8]
+ [0.06936420271876874 2 9 11]
+ [0.06936420271876874 2 10 19]
+ [0.003884086825905536 66 10 10]
+ [0.020903044279068948 89 16 11]
+ [0.015204663447502043 13 15 2]
+ [0.05277808962374479 13 8 19]]
+Parameters of the best solution (9) : [0.015204663447502043 13 6 19]
+Fitness    = 12.510468557635761
+Change     = 12.510468557635761
+Loss of best pinn :  0.0799330472946167
