@@ -20,6 +20,10 @@ while z<1000:
     z+=1
 save_gif_PIL("result/nn.gif", files, fps=20, loop=0)
 
+
+
+
+
 files = []
 for i in range(15000):
     # plot the result as training progresses

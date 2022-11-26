@@ -27,7 +27,7 @@ def plot_result(x,y,x_data,y_data,yh,xp=None):
     plt.xlim(-0.05, 1.05)
     plt.xlim(-0., 1.)
     plt.ylim(-1.1, 1.1)
-    plt.text(.6,0.8,"Training step: %i"%(i+1),fontsize="xx-large",color="k")
+    plt.text(.6,0.8,"Epoch: %i"%(i+1),fontsize="xx-large",color="k")
     # plt.axis("off")
 def oscillator(d, w0, x):
     """Defines the analytical solution to the 1D underdamped harmonic oscillator problem. 
@@ -74,26 +74,25 @@ x_data = x[index]
 y_data = y[index]
 print(x_data.shape, y_data.shape)
 
-# plt.figure(figsize=(8,5))
-# plt.plot(x, y, c="gray", label="Exact solution")
-# plt.scatter(x_data, y_data, marker="s", color="r", label="Training data")
-# l = plt.legend(loc=(1.01,0.34), frameon=False, fontsize="large")
-# plt.setp(l.get_texts(), color="k")
-# plt.xlim(-0.05, 1.05)
-# plt.xlim(-0., 1.)
-# plt.ylim(-1.1, 1.1)
-# # plt.axis("off")
-# plt.xlabel("Time", size=20)
-# plt.ylabel("Displacement", size=20)
-# plt.legend(loc='lower right')
-# plt.savefig("result/traing_data_with_exact_sol.png")
+plt.figure(figsize=(8,5))
+plt.plot(x, y, c="gray", label="Exact solution")
+plt.scatter(x_data, y_data, marker="s", color="r", label="Training data")
+l = plt.legend(loc=(1.01,0.34), frameon=False, fontsize="large")
+plt.setp(l.get_texts(), color="k")
+plt.xlim(-0.05, 1.05)
+plt.xlim(-0., 1.)
+plt.ylim(-1.1, 1.1)
+# plt.axis("off")
+plt.xlabel("Time", size=20)
+plt.ylabel("Displacement", size=20)
+plt.legend(loc='lower right')
+plt.savefig("result/traing_data_with_exact_sol.png")
 
 
     
 ## NN
 # train standard neural network to fit training data
-torch.manual_seed(123)
-model = FCN(1,1,32,3)
+model = FCN(1,1,30,3)
 optimizer = torch.optim.Adam(model.parameters(),lr=1e-3)
 import os
 os.system("mkdir plots")
@@ -132,12 +131,9 @@ save_gif_PIL("result/nn.gif", files, fps=20, loop=0)
 ## pinn
 x_physics = torch.linspace(0,1,30).view(-1,1).requires_grad_(True)# sample locations over the problem domain
 mu, k = 2*d, w0**2
-
-
 os.system("mkdir plots")
 
-
-model = FCN(1,1,32,3)
+model = FCN(1,1,30,3)
 optimizer = torch.optim.Adam(model.parameters(),lr=1e-4)
 files = []
 for i in range(15000):
