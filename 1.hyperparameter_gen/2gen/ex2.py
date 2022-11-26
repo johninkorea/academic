@@ -110,7 +110,7 @@ while z<len(data):
         file = f"img/nn_{z}.png"
         files.append(file)
 
-        mse=np.power(hyper-data[z], 2)
+        mse=np.power(np.mean(hyper-data[z]), 2)
         print(mse)
 
         plt.axis([0,5,0,5])
@@ -121,10 +121,7 @@ while z<len(data):
         
         plt.text(.5, 4.5, f"{z} ", size=15)
         plt.text(.95, 4.5, f"Generation", size=15)
-        plt.text(1, 1, f"MSE = {round(mse[0],5)}", size=10)
-        plt.text(2, 2, f"MSE = {round(mse[1],5)}", size=10)
-        plt.text(3, 3, f"MSE = {round(mse[2],5)}", size=10)
-        plt.text(4, 4, f"MSE = {round(mse[3],5)}", size=10)
+        # plt.text(2.5, 4.5, f"MSE = {round(mse,5)}", size=10)
         
         plt.ylabel("value", size=15)
         plt.xlabel("gene index", size=15)
@@ -133,5 +130,10 @@ while z<len(data):
         plt.cla()
         fit=fittness[z]
     z+=1
-    
-save_gif_PIL("img/ggg.gif", files, fps=1, loop=0)
+
+z=0
+while z<8:
+    files.append(files[-1])    
+    z+=1
+
+save_gif_PIL("img/ggg.gif", files, fps=3, loop=0)
