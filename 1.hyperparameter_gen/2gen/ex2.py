@@ -19,7 +19,8 @@ def callback_generation(ga_instance):
     # print(f"Change     = {ga_instance.best_solution()[1] - last_fitness}")
     print(ga_instance.population) # 세대즐 보기
     data.append(ga_instance.best_solution()[0])
-    fittness.append(ga_instance.best_solution()[1])
+    # fittness.append(ga_instance.best_solution()[1])
+    fittness.append(ga_instance.best_solution()[1] - last_fitness)
     last_fitness = ga_instance.best_solution()[1]
 
 # Goal
@@ -105,7 +106,7 @@ files = []
 fit=0
 z=0
 while z<len(data):
-    if fittness[z]>fit:
+    if fittness[z]>0:
         # print(fit)
         file = f"img/nn_{z}.png"
         files.append(file)
@@ -136,4 +137,4 @@ while z<8:
     files.append(files[-1])    
     z+=1
 
-save_gif_PIL("img/ggg.gif", files, fps=3, loop=0)
+save_gif_PIL("img/ggg.gif", files, fps=2, loop=0)
