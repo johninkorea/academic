@@ -29,28 +29,33 @@ import matplotlib.pyplot as plt
 # Change     = 34187965.176504366
 
 
-data_log=np.loadtxt("Fitness_log",dtype=float).T
-# data_log=data_log[:20]
-loss_log=(1/data_log)-0.00000001
-print(np.min(loss_log))
-plt.plot(np.arange(len((data_log))), loss_log,label="log", alpha=.3)
+# data_log=np.loadtxt("Fitness_log",dtype=float).T
+# # data_log=data_log[:20]
+# loss_log=(1/data_log)-0.00000001
+# print(np.min(loss_log))
+# plt.plot(np.arange(len((data_log))), loss_log,label="log", alpha=.3,c='b')
+# plt.plot(np.arange(len((data_log))), loss_log,".",label="log", alpha=.3,c='b')
 
-data_log_100gen=np.loadtxt("Fitness_log_100gen",dtype=float).T
-# # data_log_100gen=data_log_100gen[:20]
-loss_log_100gen=(1/data_log_100gen)-0.00000001
-print(np.min(loss_log_100gen))
-# plt.plot(np.arange(len((data_log_100gen))), loss_log_100gen,label="log_100gen", alpha=.3)
+# data_log_100gen=np.loadtxt("Fitness_log_100gen",dtype=float).T
+# # # data_log_100gen=data_log_100gen[:20]
+# loss_log_100gen=(1/data_log_100gen)-0.00000001
+# print(np.min(loss_log_100gen))
+# # plt.plot(np.arange(len((data_log_100gen))), loss_log_100gen,".",label="log_100gen", alpha=.3)
 
 data_log2=np.loadtxt("Fitness_log2",dtype=float).T
 # # data_log2=data_log2[:20]
 loss_log2=(1/data_log2)-0.00000001
+plt.plot(np.arange(len((data_log2))), np.log10(loss_log2), alpha=.7,c='b')#,label="log")
+m=np.min(loss_log2)
+plt.scatter(104,np.log10(loss_log2)[104],marker="*",c='r',label=f"minimum point\nGen: 104, Loss: {(round(m,9))})")
+
+
+
+plt.xlabel("Generation",size=15)
+plt.ylabel("Loss in PINN (log scale)",size=15)
 print(np.min(loss_log2))
-plt.plot(np.arange(len((data_log2))), loss_log2,label="log2", alpha=.3)
 
-
-
-
-plt.ylim([-0.000001,2e-5])
+plt.xlim([0,110])
 plt.legend()
 plt.show()
 
