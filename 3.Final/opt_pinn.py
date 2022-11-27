@@ -10,8 +10,8 @@ np.random.seed(seed)
 # learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden
 learingrate_min, learingrate_max = 1e-4, 1e-1
 number_of_epoch_min, number_of_epoch_max = 1, int(9e3)
-nodes_per_hidden_min, nodes_per_hidden_max = 1, 20
-number_of_hidden_min, number_of_hidden_max = 1, 20
+nodes_per_hidden_min, nodes_per_hidden_max = 1, 30
+number_of_hidden_min, number_of_hidden_max = 1, 5
 
 
 equation_inputs=np.array([1, 2, 3, 4],dtype=float)
@@ -49,7 +49,7 @@ initial_pop=np.array([a1,a2,a3,a4]).T
 # print(initial_pop)
 ############################################################################
 
-num_generations=int(1e2)
+num_generations=int(30)
 sol_per_pop=pop # number of population in generation
 num_parents_mating=int(len(initial_pop)/2) # how much parents will match
 num_genes=len(equation_inputs)

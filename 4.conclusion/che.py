@@ -61,6 +61,8 @@ data=np.array([[0.016364971768961182, 7822, 16, 5],
  [0.06622266956172207, 2603, 15, 2]])
 from torchsummary import summary as summary_
 
+model = FCN(1,1,18,12)
+print(summary_(model,(1,1)))
 model = FCN(1,1,30,3)
 print(summary_(model,(1,1)))
 z=0
