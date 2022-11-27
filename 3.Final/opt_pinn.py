@@ -4,7 +4,7 @@ import sys, os
 from pinn import pinn
 import time as T
 
-seed=1114
+seed=None
 np.random.seed(seed)
 
 # learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden
