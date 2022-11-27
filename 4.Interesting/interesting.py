@@ -1,16 +1,13 @@
-import numpy as np
 import os
-
+import numpy as np
 import torch
 import torch.nn as nn
-
 from PIL import Image
 import matplotlib.pyplot as plt
 
 seed=1114
 np.random.seed(seed)
 torch.manual_seed(seed)
-
 
 def save_gif_PIL(outfile, files, fps=5, loop=0):
     "Helper function for saving GIFs"
@@ -138,9 +135,23 @@ print(f"Last loss: {losslist[-1]}")
 # save_gif_PIL("result/pinn.gif", files, fps=20, loop=0)
 
 
+d, w0 = 2, 20
+# get the analytical solution over the full domain
+x = torch.linspace(0,1,500).view(-1,1) # 0차원을 1차원으로 만들어 주는
+y = oscillator(d, w0, x).view(-1,1)
 
-os.system("say done")
+yh = model(x).detach()
+xp = x_physics.detach()
+plt.cla()
+plt.plot(x,y,label="new")
+plt.plot(x,yh,label="pre")
+plt.legend()
 
+
+# plot_result(x,y,x_data,y_data,yh,xp)
+plt.savefig("re.png", bbox_inches='tight', pad_inches=0.1, dpi=100, facecolor="white")
+
+os.system("rm -rf plots")
 
 
 
