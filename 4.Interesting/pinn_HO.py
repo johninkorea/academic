@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 import torch
 import torch.nn as nn
@@ -87,47 +88,6 @@ print(x_data.shape, y_data.shape)
 # plt.ylabel("Displacement", size=20)
 # plt.legend(loc='lower right')
 # plt.savefig("result/traing_data_with_exact_sol.png")
-
-
-    
-## NN
-# train standard neural network to fit training data
-model = FCN(1,1,30,3)
-optimizer = torch.optim.Adam(model.parameters(),lr=1e-3)
-import os
-os.system("mkdir plots")
-
-files = []
-losslist=[]
-for i in range(15000):
-    optimizer.zero_grad()
-    yh = model(x_data)
-    loss = torch.mean((yh-y_data)**2)# use mean squared error
-    losslist.append(loss.detach().item())
-    loss.backward()
-    optimizer.step()
-    
-    
-    # plot the result as training progresses
-    if (i+1) % 10 == 0: 
-        
-        yh = model(x).detach()
-        
-        plot_result(x,y,x_data,y_data,yh)
-        
-        file = f"plots/nn_{i+1}.png"
-        # plt.savefig(file, bbox_inches='tight', pad_inches=0.1, dpi=100, facecolor="white")
-        files.append(file)
-    
-        # if (i+1) % 500 == 0: plt.show()
-        # else: plt.close("all")
-print(f"Last loss: {losslist[-1]}")
-# save_gif_PIL("result/nn.gif", files, fps=20, loop=0)
-
-
-
-
-
 
 
 ## pinn
