@@ -125,11 +125,11 @@ while z<len(data):
         plt.scatter(hyper, data[z], marker="*", alpha=1,c='b',label="Best Solution")
         
         plt.text(.5, 4.5, f"{z} ", size=15)
-        plt.text(.95, 4.5, f"Generation", size=15)
+        plt.text(.95, 4.5, f"Generations", size=15)
         # plt.text(2.5, 4.5, f"MSE = {round(mse,5)}", size=10)
         
-        plt.ylabel("value", size=15)
-        plt.xlabel("gene index", size=15)
+        plt.ylabel("Value", size=15)
+        plt.xlabel("Gene index", size=15)
         plt.legend(loc='lower right')
         plt.savefig(file1, bbox_inches='tight', pad_inches=0.1, dpi=300, facecolor="white")
         plt.cla()
