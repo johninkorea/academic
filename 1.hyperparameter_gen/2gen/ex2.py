@@ -15,9 +15,9 @@ last_fitness=0
 def callback_generation(ga_instance):
     global last_fitness
     print(f"Generation = {ga_instance.generations_completed}"+'***********************')
-    # print(f"Fitness    = {ga_instance.best_solution()[1]}")
+    print(f"Fitness    = {ga_instance.best_solution()[1]}")
     # print(f"Change     = {ga_instance.best_solution()[1] - last_fitness}")
-    print(ga_instance.population) # 세대즐 보기
+    # print(ga_instance.population) # 세대즐 보기
     data.append(ga_instance.best_solution()[0])
     # fittness.append(ga_instance.best_solution()[1])
     fittness.append(ga_instance.best_solution()[1] - last_fitness)
@@ -83,7 +83,7 @@ ga_instance.run()
 
 solution, solution_fitness, solution_idx = ga_instance.best_solution()
 ## show results
-# ga_instance.plot_fitness()
+ga_instance.plot_fitness()
 # print(len(ga_instance.population))
 print(f"Parameters of the best solution : {solution}")
 print(f"Fitness value of the best solution = {solution_fitness}")

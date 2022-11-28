@@ -1,5 +1,5 @@
 import numpy as np
-
+import os
 import torch
 import torch.nn as nn
 
@@ -15,16 +15,23 @@ def save_gif_PIL(outfile, files, fps=5, loop=0):
     "Helper function for saving GIFs"
     imgs = [Image.open(file) for file in files]
     imgs[0].save(fp=outfile, format='GIF', append_images=imgs[1:], save_all=True, duration=int(1000/fps), loop=loop)
+
 def plot_result(x,y,x_data,y_data,yh,xp=None):
     "Pretty plot training results"
     plt.figure(figsize=(8,5))
     plt.plot(x,y, color="gray", linewidth=2, alpha=0.8, label="Exact solution")
+    plt.scatter(x_data, y_data, marker="s", color="r", alpha=0.8, label='Training data')
+    # print(xp)
+    if xp is not None:
+        qwe=xp.numpy().T[0]
+        qwe2=y.T[0]
+        # print(qwe2)
+        plt.scatter(x[::25],y[::25], marker="^", color="k", alpha=1, label='Gradient training point')
+        # plt.scatter(xp, qwe2[qwe],)
     plt.plot(x,yh, color="tab:blue", linewidth=4, alpha=0.8, label="Neural network prediction")
-    plt.scatter(x_data, y_data, marker="s", color="r", alpha=0.4, label='Training data')
     plt.legend(loc='lower right')
     plt.xlabel("Time", size=20)
     plt.ylabel("Displacement", size=20)
-    plt.xlim(-0.05, 1.05)
     plt.xlim(-0., 1.)
     plt.ylim(-1.1, 1.1)
     plt.text(.6,0.8,"Epoch: %i"%(i+1),fontsize="xx-large",color="k")
@@ -74,64 +81,11 @@ x_data = x[index]
 y_data = y[index]
 print(x_data.shape, y_data.shape)
 
-# plt.figure(figsize=(8,5))
-# plt.plot(x, y, c="gray", label="Exact solution")
-# plt.scatter(x_data, y_data, marker="s", color="r", label="Training data")
-# l = plt.legend(loc=(1.01,0.34), frameon=False, fontsize="large")
-# plt.setp(l.get_texts(), color="k")
-# plt.xlim(-0.05, 1.05)
-# plt.xlim(-0., 1.)
-# plt.ylim(-1.1, 1.1)
-# # plt.axis("off")
-# plt.xlabel("Time", size=20)
-# plt.ylabel("Displacement", size=20)
-# plt.legend(loc='lower right')
-# plt.savefig("result/traing_data_with_exact_sol.png")
-
-
-    
-## NN
-# train standard neural network to fit training data
-model = FCN(1,1,30,3)
-optimizer = torch.optim.Adam(model.parameters(),lr=1e-3)
-import os
-os.system("mkdir plots")
-
-files = []
-losslist=[]
-for i in range(15000):
-    optimizer.zero_grad()
-    yh = model(x_data)
-    loss = torch.mean((yh-y_data)**2)# use mean squared error
-    losslist.append(loss.detach().item())
-    loss.backward()
-    optimizer.step()
-    
-    
-    # plot the result as training progresses
-    if (i+1) % 10 == 0: 
-        
-        yh = model(x).detach()
-        
-        plot_result(x,y,x_data,y_data,yh)
-        
-        file = f"plots/nn_{i+1}.png"
-        # plt.savefig(file, bbox_inches='tight', pad_inches=0.1, dpi=100, facecolor="white")
-        files.append(file)
-    
-        # if (i+1) % 500 == 0: plt.show()
-        # else: plt.close("all")
-print(f"Last loss: {losslist[-1]}")
-# save_gif_PIL("result/nn.gif", files, fps=20, loop=0)
-
-
-
-
 
 
 
 ## pinn
-x_physics = torch.linspace(0,1,30).view(-1,1).requires_grad_(True)# sample locations over the problem domain
+x_physics = torch.linspace(0,1,20).view(-1,1).requires_grad_(True)# sample locations over the problem domain
 mu, k = 2*d, w0**2
 os.system("mkdir plots")
 
@@ -161,7 +115,7 @@ for i in range(15000):
     
     
     # plot the result as training progresses
-    if (i+1) % 10 == 0: 
+    if (i+1) % 100 == 0: 
         
         yh = model(x).detach()
         xp = x_physics.detach()
@@ -169,13 +123,18 @@ for i in range(15000):
         plot_result(x,y,x_data,y_data,yh,xp)
         
         file = "plots/pinn_%.8i.png"%(i+1)
-        # plt.savefig(file, bbox_inches='tight', pad_inches=0.1, dpi=100, facecolor="white")
+        plt.savefig(file, bbox_inches='tight', pad_inches=0.1, dpi=100, facecolor="white")
         files.append(file)
         
         # if (i+1) % 6000 == 0: plt.show()
         # else: plt.close("all")
 print(f"Last loss: {losslist[-1]}")
-# save_gif_PIL("result/pinn.gif", files, fps=20, loop=0)
+z=0
+while z<80:
+    files.append(files[-1])
+    z+=1
+
+save_gif_PIL("result/pinn.gif", files, fps=20, loop=0)
 
 
 
