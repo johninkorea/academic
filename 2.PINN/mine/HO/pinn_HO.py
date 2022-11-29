@@ -26,15 +26,15 @@ def plot_result(x,y,x_data,y_data,yh,xp=None):
         qwe=xp.numpy().T[0]
         qwe2=y.T[0]
         # print(qwe2)
-        plt.scatter(x[::25],y[::25], marker="^", color="k", alpha=1, label='Gradient training point')
+        plt.scatter(x[::25],y[::25], marker="^", color="k", alpha=1, label='Gradient checkpoint')
         # plt.scatter(xp, qwe2[qwe],)
     plt.plot(x,yh, color="tab:blue", linewidth=4, alpha=0.8, label="Neural network prediction")
-    plt.legend(loc='lower right')
-    plt.xlabel("Time", size=20)
+    plt.legend(loc='lower right', prop={'size': 10})
+    plt.xlabel("Time", size=30)
     plt.ylabel("Displacement", size=20)
     plt.xlim(-0., 1.)
     plt.ylim(-1.1, 1.1)
-    plt.text(.6,0.8,"Epoch: %i"%(i+1),fontsize="xx-large",color="k")
+    plt.text(.6,0.8,"Epoch: %i"%(i+1),fontsize="30",color="k")
     # plt.axis("off")
 def oscillator(d, w0, x):
     """Defines the analytical solution to the 1D underdamped harmonic oscillator problem. 
@@ -123,7 +123,7 @@ for i in range(15000):
         plot_result(x,y,x_data,y_data,yh,xp)
         
         file = "plots/pinn_%.8i.png"%(i+1)
-        plt.savefig(file, bbox_inches='tight', pad_inches=0.1, dpi=100, facecolor="white")
+        plt.savefig(file, pad_inches=0.1, dpi=100, facecolor="white")
         files.append(file)
         
         # if (i+1) % 6000 == 0: plt.show()
