@@ -1,35 +1,48 @@
-program mpi_sin_function
+program sin_function_mpi
   use mpi
-  
   implicit none
-  integer :: ierr, myrank, nprocs, i, n
-  real :: x, result, sendbuf(1), recvbuf(1)
+  integer :: ierr, rank, size, i, n, local_n, local_i
+  real :: x, result
+  real, dimension(:), allocatable :: x_local, result_local
   real, parameter :: pi = 3.1415926535897932384626433832795
+  
+  ! 초기화
+  call MPI_Init(ierr)
+  call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierr)
+  call MPI_Comm_size(MPI_COMM_WORLD, size, ierr)
   
   ! 설정값
   n = 1000  ! 구간을 몇 등분할 것인지 결정
+  local_n = n / size
   
-  call MPI_INIT(ierr)
-  call MPI_COMM_RANK(MPI_COMM_WORLD, myrank, ierr)
-  call MPI_COMM_SIZE(MPI_COMM_WORLD, nprocs, ierr)
+  allocate(x_local(local_n), result_local(local_n))
   
-  ! 계산
-  do i = myrank, n, nprocs
-    x = 2.0 * pi * i / n
-    result = sin(x)
-    write(*, '(I4, F8.4, F10.6)') myrank, x, result
-    
-    ! 결과를 모으기 위해 모든 프로세스에서 결과값을 전달
-    sendbuf(1) = result
-    call MPI_ALLGATHER(sendbuf, 1, MPI_REAL, recvbuf, 1, MPI_REAL, MPI_COMM_WORLD, ierr)
-    
-    ! 결과값을 모든 프로세스에서 출력
-    if (myrank == 0) then
-      write(*, '(F8.4, F10.6)') x, recvbuf(1)
-    end if
+  ! 각 프로세스에게 할당된 범위 계산
+  do i = 1, local_n
+    local_i = (rank * local_n) + i - 1
+    x_local(i) = 2.0 * pi * local_i / n
   end do
   
-  call MPI_FINALIZE(ierr)
+  ! 계산
+  do i = 1, local_n
+    result_local(i) = sin(x_local(i))
+  end do
   
-end program mpi_sin_function
+  ! 결과 수집
+  call MPI_Gather(result_local, local_n, MPI_REAL, result, local_n, MPI_REAL, 0, MPI_COMM_WORLD, ierr)
+  
+  ! 결과 출력
+  if (rank == 0) then
+    do i = 1, n
+      x = 2.0 * pi * (i - 1) / n
+      write(*, '(F8.4, F10.6)') x, result(i)
+    end do
+  end if
+  
+  deallocate(x_local, result_local)
+  
+  ! MPI 종료
+  call MPI_Finalize(ierr)
+  
+end program sin_function_mpi
 
