@@ -37,10 +37,10 @@ int main() {
     cudaMemcpy(hostResults, deviceResults, numSteps * sizeof(double), cudaMemcpyDeviceToHost);
 
     // Print results
-    for (int i = 0; i < numSteps; ++i) {
-        double x = start + i * step;
-        std::cout << "f(" << x << ") = " << hostResults[i] << std::endl;
-    }
+//    for (int i = 0; i < numSteps; ++i) {
+//        double x = start + i * step;
+//        std::cout << "f(" << x << ") = " << hostResults[i] << std::endl;
+//    }
 
     // Clean up
     delete[] hostResults;

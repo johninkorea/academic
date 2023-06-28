@@ -11,7 +11,7 @@ program sin_function
   do i = 0, n
     x = 2.0 * pi * i / n
     result = sin(x)
-    write(*, '(F8.4, F10.6)') x, result
+   !write(*, '(F8.4, F10.6)') x, result
   end do
   
 end program sin_function

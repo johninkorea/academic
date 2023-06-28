@@ -29,13 +29,13 @@ while x < local_end:
 
 # Gather results on the root process
 all_results = comm.gather(local_results, root=0)
-
+"""
 # Print results on the root process
 if rank == 0:
     for results in all_results:
         for x, result in results:
             print("f({:.2f}) = {:.2f}".format(x, result))
-
+"""
 # Finalize MPI
 MPI.Finalize()
 
