@@ -216,7 +216,8 @@ xs = np.linspace(0, 5, gp_sample_n).reshape([-1,1])
 # Posterior function generation
 print(x_data1)
 print(x_data1.numpy())
-print(type(x_data1.numpy()))
+print(x_data1.numpy().T)
+# print(type(x_data1.numpy()))
 tr_xs = np.array([x_data1.numpy()]).T
 tr_ys = np.array([y_data1.numpy()]).T
 
