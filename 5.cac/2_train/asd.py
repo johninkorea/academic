@@ -16,7 +16,7 @@ print("learning with",device,"\n")
 
 def plot_result(x,y,x_data,y_data,yh,xp=None):
     "Pretty plot training results"
-    plt.figure(figsize=(8,5))
+    # plt.figure(figsize=(8,5))
     plt.plot(x,y, color="gray", linewidth=2, alpha=0.8, label="Exact solution")
     plt.plot(x,yh, color="tab:blue", linewidth=1, alpha=0.8, label="Neural network prediction")
     plt.scatter(x_data, y_data, marker="s", color="r", alpha=0.4, label='Training data')
@@ -164,7 +164,7 @@ def pinn(hyper, generations, gif=False):
     return loss.item(), k_list, mu_list, mu_t, k_t, model, x_data1, y_data1
 
 d, w0=1.5, 15
-epoch=10000
+epoch=1000
 hyper=[.0001, epoch, 60, 3,d, w0]
 f_loss, ks, mus, mu_t, k_t, model, x_data1, y_data1 = pinn(hyper, generations=1, gif=False)
 
