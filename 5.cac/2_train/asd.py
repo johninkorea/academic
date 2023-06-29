@@ -185,6 +185,7 @@ ax2.set_xlabel('epoch')
 ax2.hlines(mu_t, 0,20000,  label='True $\\rho$')
 
 plt.savefig('lorenz2', dpi=100)
+plt.show()
 ################################################################################
 ## # 통계
 x = torch.linspace(0,1,500).view(-1,1)
