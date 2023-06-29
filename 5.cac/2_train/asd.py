@@ -26,7 +26,7 @@ def plot_result(x,y,x_data,y_data,yh,xp=None):
     plt.xlim(-0.05, 1.05)
     plt.xlim(-0., 1.)
     plt.ylim(-1.1, 1.1)
-    plt.text(.6,0.8,"Training step: %i"%(i+1),fontsize="xx-large",color="k")
+    # plt.text(.6,0.8,"Training step: %i"%(i+1),fontsize="xx-large",color="k")
     # plt.axis("off")
 
 def oscillator(d, w0, x):
