@@ -214,6 +214,7 @@ gp_sample_n = 50     # number of functions
 xs = np.linspace(0, 5, gp_sample_n).reshape([-1,1])
 
 # Posterior function generation
+print(x_data1)
 tr_xs = np.array([x_data1.numpy()]).T
 tr_ys = np.array([y_data1.numpy()]).T
 
