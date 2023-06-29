@@ -211,7 +211,7 @@ def GaussianKernel(X1, X2, sig=1.):
 
 # # Collection of functions
 gp_sample_n = 50     # number of functions
-xs = np.linspace(0, 5, gp_sample_n).reshape([-1,1])
+xs = np.linspace(0, 1, gp_sample_n).reshape([-1,1])
 sigma=1.5
 
 # Posterior function generation
