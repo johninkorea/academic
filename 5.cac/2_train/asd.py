@@ -164,7 +164,7 @@ def pinn(hyper, generations, gif=False):
     return loss.item(), k_list, mu_list, mu_t, k_t, model, x_data1, y_data1
 
 d, w0=1.5, 15
-epoch=1000
+epoch=10000
 hyper=[.0001, epoch, 60, 3,d, w0]
 f_loss, ks, mus, mu_t, k_t, model, x_data1, y_data1 = pinn(hyper, generations=1, gif=False)
 
@@ -187,14 +187,15 @@ ax2.hlines(mu_t, 0,20000,  label='True $\\rho$')
 plt.savefig('lorenz2', dpi=100)
 plt.show()
 ################################################################################
-## # 통계
-x = torch.linspace(0,1,500).view(-1,1)
-y = oscillator(d, w0, x).view(-1,1)
+# ## # 통계 ->> 차이가 잘 안 보임.
+# x = torch.linspace(0,1,500).view(-1,1)
+# y = oscillator(d, w0, x).view(-1,1)
 
-z=0
-while z<5:
-    yh = model(x.to(device)).detach()
-    plot_result(x,y,x_data1,y_data1,yh.cpu())
-    z+=1
-plt.show()
+# z=0
+# while z<5:
+#     yh = model(x.to(device)).detach()
+#     plot_result(x,y,x_data1,y_data1,yh.cpu())
+#     z+=1
+# plt.show()
+################################################################################
 
