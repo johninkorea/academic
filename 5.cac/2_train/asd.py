@@ -244,40 +244,37 @@ plt.show()
 
 ################################################################################
 # ## Gaussian kernel 2
-# import numpy as np
-# import matplotlib.pyplot as plt
+def GaussianKernel(X1, X2, sig=1.):
+    dist_sqs = np.sum(X1**2, axis=1).reshape([-1,1]) + \
+        np.sum(X2**2, axis=1).reshape([1,-1]) - \
+        2*np.matmul(X1, X2.T)
+    K = np.exp(-.5*dist_sqs/sig**2)
+    return K
 
-# def GaussianKernel(X1, X2, sig=1.):
-#     dist_sqs = np.sum(X1**2, axis=1).reshape([-1,1]) + \
-#         np.sum(X2**2, axis=1).reshape([1,-1]) - \
-#         2*np.matmul(X1, X2.T)
-#     K = np.exp(-.5*dist_sqs/sig**2)
-#     return K
+# # Collection of functions
+gp_sample_n = 50     # number of functions
+xs = np.linspace(0, 1, gp_sample_n).reshape([-1,1])
+sigma=1.5
 
-# # # Collection of functions
-# gp_sample_n = 50     # number of functions
-# xs = np.linspace(0, 1, gp_sample_n).reshape([-1,1])
-# sigma=1.5
+# Posterior function generation
+# print(x_data1)
+# print(x_data1.numpy())
+# print(x_data1.numpy().T)
+# print(type(x_data1.numpy()))
+tr_xs = x_data1.numpy()#.T
+tr_ys = y_data1.numpy()#.T
 
-# # Posterior function generation
-# # print(x_data1)
-# # print(x_data1.numpy())
-# # print(x_data1.numpy().T)
-# # print(type(x_data1.numpy()))
-# tr_xs = x_data1.numpy()#.T
-# tr_ys = y_data1.numpy()#.T
+k = GaussianKernel(tr_xs, xs, sigma)  # covariances
+K = GaussianKernel(tr_xs, tr_xs, sigma)
+invK = np.linalg.inv(K)
 
-# k = GaussianKernel(tr_xs, xs, sigma)  # covariances
-# K = GaussianKernel(tr_xs, tr_xs, sigma)
-# invK = np.linalg.inv(K)
+m_fun = np.matmul(np.matmul(k.T, invK), tr_ys).T[0]
+k_fun = GaussianKernel(xs, xs, sigma) - np.matmul(np.matmul(k.T, invK), k)
 
-# m_fun = np.matmul(np.matmul(k.T, invK), tr_ys).T[0]
-# k_fun = GaussianKernel(xs, xs, sigma) - np.matmul(np.matmul(k.T, invK), k)
+ys = np.random.multivariate_normal(m_fun, k_fun, gp_sample_n)
 
-# ys = np.random.multivariate_normal(m_fun, k_fun, gp_sample_n)
-
-# # plt.scatter(tr_xs, tr_ys, s=1000)
-# for i in range(gp_sample_n):
-#     plt.plot(xs.T[0], ys[i], alpha=.3, c='k')
-# plt.scatter(tr_xs, tr_ys, s=30, c='k', zorder=5)
-# plt.show()
+# plt.scatter(tr_xs, tr_ys, s=1000)
+for i in range(gp_sample_n):
+    plt.plot(xs.T[0], ys[i], alpha=.3, c='k')
+plt.scatter(tr_xs, tr_ys, s=30, c='k', zorder=5)
+plt.show()
