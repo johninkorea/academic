@@ -14,41 +14,42 @@ if device == 'cuda:2':
     torch.cuda.manual_seed_all(seed)
 print("learning with",device,"\n")
 
+def plot_result(x,y,x_data,y_data,yh,xp=None):
+    "Pretty plot training results"
+    plt.figure(figsize=(8,5))
+    plt.plot(x,y, color="gray", linewidth=2, alpha=0.8, label="Exact solution")
+    plt.plot(x,yh, color="tab:blue", linewidth=4, alpha=0.8, label="Neural network prediction")
+    plt.scatter(x_data, y_data, marker="s", color="r", alpha=0.4, label='Training data')
+    plt.legend(loc='lower right')
+    plt.xlabel("Time", size=20)
+    plt.ylabel("Displacement", size=20)
+    plt.xlim(-0.05, 1.05)
+    plt.xlim(-0., 1.)
+    plt.ylim(-1.1, 1.1)
+    plt.text(.6,0.8,"Training step: %i"%(i+1),fontsize="xx-large",color="k")
+    # plt.axis("off")
+
+def oscillator(d, w0, x):
+    """Defines the analytical solution to the 1D underdamped harmonic oscillator problem. 
+    Equations taken from: https://beltoforion.de/en/harmonic_oscillator/"""
+    assert d < w0
+    w = np.sqrt(w0**2-d**2)
+    phi = np.arctan(-d/w)
+    A = 1/(2*np.cos(phi))
+    cos = torch.cos(phi+w*x)
+    sin = torch.sin(phi+w*x)
+    exp = torch.exp(-d*x)
+    y  = exp*2*A*cos
+    return y
 
 def pinn(hyper, generations, gif=False):
-    learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden = hyper
+    learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden,d, w0 = hyper
     learingrate, number_of_epoch, nodes_per_hidden, number_of_hidden = float(learingrate), int(number_of_epoch), int(nodes_per_hidden), int(number_of_hidden) 
     # 1e-4 .        15000               32                  3
     def save_gif_PIL(outfile, files, fps=5, loop=0):
         "Helper function for saving GIFs"
         imgs = [Image.open(file) for file in files]
         imgs[0].save(fp=outfile, format='GIF', append_images=imgs[1:], save_all=True, duration=int(1000/fps), loop=loop)
-    def plot_result(x,y,x_data,y_data,yh,xp=None):
-        "Pretty plot training results"
-        plt.figure(figsize=(8,5))
-        plt.plot(x,y, color="gray", linewidth=2, alpha=0.8, label="Exact solution")
-        plt.plot(x,yh, color="tab:blue", linewidth=4, alpha=0.8, label="Neural network prediction")
-        plt.scatter(x_data, y_data, marker="s", color="r", alpha=0.4, label='Training data')
-        plt.legend(loc='lower right')
-        plt.xlabel("Time", size=20)
-        plt.ylabel("Displacement", size=20)
-        plt.xlim(-0.05, 1.05)
-        plt.xlim(-0., 1.)
-        plt.ylim(-1.1, 1.1)
-        plt.text(.6,0.8,"Training step: %i"%(i+1),fontsize="xx-large",color="k")
-        # plt.axis("off")
-    def oscillator(d, w0, x):
-        """Defines the analytical solution to the 1D underdamped harmonic oscillator problem. 
-        Equations taken from: https://beltoforion.de/en/harmonic_oscillator/"""
-        assert d < w0
-        w = np.sqrt(w0**2-d**2)
-        phi = np.arctan(-d/w)
-        A = 1/(2*np.cos(phi))
-        cos = torch.cos(phi+w*x)
-        sin = torch.sin(phi+w*x)
-        exp = torch.exp(-d*x)
-        y  = exp*2*A*cos
-        return y
     class FCN(nn.Module):
         "Defines a connected network"
         def __init__(self, N_INPUT, N_OUTPUT, N_HIDDEN, N_LAYERS):
@@ -85,21 +86,21 @@ def pinn(hyper, generations, gif=False):
 
 
     ## create data to train
-    d, w0 = 1.5, 15
+    # d, w0 = 1.5, 15
     # get the analytical solution over the full domain
     x = torch.linspace(0,1,500).view(-1,1)
     y = oscillator(d, w0, x).view(-1,1)
 
     # slice out a small number of points from the LHS of the domain
     index=np.random.choice(np.arange(len(x)), replace=0, size=10)
-    x_data = x[index]
-    y_data = y[index]
+    x_data1 = x[index]
+    y_data1 = y[index]
     
     k = torch.ones(1).to(device).requires_grad_(True)            # Parameter approximator
     mu = torch.ones(1).to(device).requires_grad_(True)
     
-    x_data = torch.Tensor.cuda(x_data)
-    y_data = torch.Tensor.cuda(y_data)
+    x_data = torch.Tensor.cuda(x_data1)
+    y_data = torch.Tensor.cuda(y_data1)
 
     ## pinn
     x_physics = torch.linspace(0,1,30).view(-1,1).requires_grad_(True)# sample locations over the problem domain
@@ -160,11 +161,11 @@ def pinn(hyper, generations, gif=False):
     if gif == True:
         save_gif_PIL("result/pinn.gif", files, fps=20, loop=0)
 
-    return loss.item(), k_list, mu_list, mu_t, k_t
+    return loss.item(), k_list, mu_list, mu_t, k_t, model, x_data1, y_data1
 
-
-hyper=[.0001, 20000, 60, 3]
-f_loss, ks, mus, mu_t, k_t = pinn(hyper, generations=1, gif=False)
+d, w0=1.5, 15
+hyper=[.0001, 20000, 60, 3,d, w0]
+f_loss, ks, mus, mu_t, k_t, model, x_data1, y_data1 = pinn(hyper, generations=1, gif=False)
 
 figure = plt.figure(figsize=(15,5))
 
@@ -183,4 +184,13 @@ ax2.set_xlabel('epoch')
 ax2.hlines(mu_t, 0,20000,  label='True $\\rho$')
 
 plt.savefig('lorenz2', dpi=100)
+################################################################################
+## # 통계
+x = torch.linspace(0,1,500).view(-1,1)
+y = oscillator(d, w0, x).view(-1,1)
+
+
+yh = model(x.to(device)).detach()
+plot_result(x,y,x_data1,y_data1,yh)
+
 
