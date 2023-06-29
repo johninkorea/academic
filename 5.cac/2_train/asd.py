@@ -224,7 +224,7 @@ tr_ys = y_data1.numpy()#.T
 
 k = GaussianKernel(tr_xs, xs, sigma)  # covariances
 K = GaussianKernel(tr_xs, tr_xs, sigma)
-invK = np.linalg.inv(K)
+invK = np.linalg.inv(k)
 
 m_fun = np.matmul(np.matmul(k.T, invK), tr_ys).T[0]
 k_fun = GaussianKernel(xs, xs, sigma) - np.matmul(np.matmul(k.T, invK), k)
