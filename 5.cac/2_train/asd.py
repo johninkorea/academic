@@ -198,41 +198,86 @@ plt.show()
 #     z+=1
 # plt.show()
 ################################################################################
-## Gaussian kernel
-import numpy as np
-import matplotlib.pyplot as plt
+xs = x_data1.numpy()#.T
+ys = y_data1.numpy()#.T
 
-def GaussianKernel(X1, X2, sig=1.):
-    dist_sqs = np.sum(X1**2, axis=1).reshape([-1,1]) + \
-        np.sum(X2**2, axis=1).reshape([1,-1]) - \
-        2*np.matmul(X1, X2.T)
-    K = np.exp(-.5*dist_sqs/sig**2)
-    return K
+x_test = np.array([5.])
 
-# # Collection of functions
-gp_sample_n = 50     # number of functions
-xs = np.linspace(0, 1, gp_sample_n).reshape([-1,1])
-sigma=1.5
+def k_fun(X_1, X_2, gamma = .005):
+    return np.exp(-gamma*(
+        np.diag(np.matmul(X_1, X_1.T)).reshape([-1,1]) + np.diag(np.matmul(X_2, X_2.T)).reshape([1,-1]) - \
+        2*np.matmul(X_1, X_2.T)))
 
-# Posterior function generation
-# print(x_data1)
-# print(x_data1.numpy())
-# print(x_data1.numpy().T)
-# print(type(x_data1.numpy()))
-tr_xs = x_data1.numpy()#.T
-tr_ys = y_data1.numpy()#.T
+tr_num = len(xs)
+K = k_fun(xs.reshape([tr_num,-1]), xs.reshape([tr_num,-1]))
+k = k_fun(x_test.reshape([1,-1]), xs.reshape([-1,1]))
+# K
 
-k = GaussianKernel(tr_xs, xs, sigma)  # covariances
-K = GaussianKernel(tr_xs, tr_xs, sigma)
-invK = np.linalg.inv(k)
+y_test = np.matmul(np.matmul(k, np.linalg.inv(K)), ys.reshape([-1,1]))
+# print(y_test)
 
-m_fun = np.matmul(np.matmul(k.T, invK), tr_ys).T[0]
-k_fun = GaussianKernel(xs, xs, sigma) - np.matmul(np.matmul(k.T, invK), k)
+test_num = 50
+xs_test = np.linspace(0, 1, num=test_num)
+k = k_fun(xs_test.reshape([test_num,-1]), xs.reshape([tr_num,-1]))
 
-ys = np.random.multivariate_normal(m_fun, k_fun, gp_sample_n)
+ys_pred = np.matmul(np.matmul(k, np.linalg.inv(K)), ys.reshape([-1,1]))
 
-# plt.scatter(tr_xs, tr_ys, s=1000)
-for i in range(gp_sample_n):
-    plt.plot(xs.T[0], ys[i], alpha=.3, c='k')
-plt.scatter(tr_xs, tr_ys, s=30, c='k', zorder=5)
+k_test = k_fun(xs_test.reshape([test_num,-1]), xs_test.reshape([test_num,-1]))
+sig_sq = .0005
+var_test = sig_sq + np.diag(k_test) - np.diag(np.matmul(np.matmul(k, np.linalg.inv(K)), k.T))
+
+plt.plot(xs_test, ys_pred)
+plt.scatter(xs, ys)
+
+plt.fill_between(
+    xs_test.ravel(),
+    ys_pred.ravel() - np.sqrt(var_test),
+    ys_pred.ravel() + np.sqrt(var_test),
+    alpha=0.5
+)
+plt.xlabel('x')
+plt.ylabel('y')
 plt.show()
+
+
+
+
+################################################################################
+# ## Gaussian kernel 2
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+# def GaussianKernel(X1, X2, sig=1.):
+#     dist_sqs = np.sum(X1**2, axis=1).reshape([-1,1]) + \
+#         np.sum(X2**2, axis=1).reshape([1,-1]) - \
+#         2*np.matmul(X1, X2.T)
+#     K = np.exp(-.5*dist_sqs/sig**2)
+#     return K
+
+# # # Collection of functions
+# gp_sample_n = 50     # number of functions
+# xs = np.linspace(0, 1, gp_sample_n).reshape([-1,1])
+# sigma=1.5
+
+# # Posterior function generation
+# # print(x_data1)
+# # print(x_data1.numpy())
+# # print(x_data1.numpy().T)
+# # print(type(x_data1.numpy()))
+# tr_xs = x_data1.numpy()#.T
+# tr_ys = y_data1.numpy()#.T
+
+# k = GaussianKernel(tr_xs, xs, sigma)  # covariances
+# K = GaussianKernel(tr_xs, tr_xs, sigma)
+# invK = np.linalg.inv(K)
+
+# m_fun = np.matmul(np.matmul(k.T, invK), tr_ys).T[0]
+# k_fun = GaussianKernel(xs, xs, sigma) - np.matmul(np.matmul(k.T, invK), k)
+
+# ys = np.random.multivariate_normal(m_fun, k_fun, gp_sample_n)
+
+# # plt.scatter(tr_xs, tr_ys, s=1000)
+# for i in range(gp_sample_n):
+#     plt.plot(xs.T[0], ys[i], alpha=.3, c='k')
+# plt.scatter(tr_xs, tr_ys, s=30, c='k', zorder=5)
+# plt.show()
