@@ -164,12 +164,13 @@ def pinn(hyper, generations, gif=False):
     return loss.item(), k_list, mu_list, mu_t, k_t, model, x_data1, y_data1
 
 d, w0=1.5, 15
-hyper=[.0001, 10000, 60, 3,d, w0]
+epoch=10000
+hyper=[.0001, epoch, 60, 3,d, w0]
 f_loss, ks, mus, mu_t, k_t, model, x_data1, y_data1 = pinn(hyper, generations=1, gif=False)
 
 figure = plt.figure(figsize=(15,5))
 
-xxx=range(20000)
+xxx=range(epoch)
 
 ax1 = figure.add_subplot(1,3,1)
 ax1.plot(xxx,ks)
