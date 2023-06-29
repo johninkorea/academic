@@ -191,6 +191,6 @@ y = oscillator(d, w0, x).view(-1,1)
 
 
 yh = model(x.to(device)).detach()
-plot_result(x,y,x_data1,y_data1,yh)
+plot_result(x,y,x_data1,y_data1,yh.cpu())
 
 
