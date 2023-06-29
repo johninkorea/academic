@@ -13,8 +13,8 @@ gp_sample_n = 50     # number of functions
 xs = np.linspace(0, 5, gp_sample_n).reshape([-1,1])
 
 # Posterior function generation
-tr_xs = np.array([[.2, .6, 2.7, 3.5, 4.7]])#.T
-tr_ys = np.array([[.95, .7, 1.11, 1.1, 0.7]])#.T
+tr_xs = np.array([[.2, .6, 2.7, 3.5, 4.7]]).T
+tr_ys = np.array([[.95, .7, 1.11, 1.1, 0.7]]).T
 
 k = GaussianKernel(tr_xs, xs)  # covariances
 K = GaussianKernel(tr_xs, tr_xs)

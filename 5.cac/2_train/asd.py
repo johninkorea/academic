@@ -218,8 +218,8 @@ xs = np.linspace(0, 5, gp_sample_n).reshape([-1,1])
 # print(x_data1.numpy())
 # print(x_data1.numpy().T)
 # print(type(x_data1.numpy()))
-tr_xs = x_data1.numpy().T
-tr_ys = y_data1.numpy().T
+tr_xs = x_data1.numpy()#.T
+tr_ys = y_data1.numpy()#.T
 
 k = GaussianKernel(tr_xs, xs)  # covariances
 K = GaussianKernel(tr_xs, tr_xs)
