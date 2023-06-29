@@ -198,4 +198,36 @@ plt.show()
 #     z+=1
 # plt.show()
 ################################################################################
+## Gaussian kernel
+import numpy as np
+import matplotlib.pyplot as plt
 
+def GaussianKernel(X1, X2, sig=1.):
+    dist_sqs = np.sum(X1**2, axis=1).reshape([-1,1]) + \
+        np.sum(X2**2, axis=1).reshape([1,-1]) - \
+        2*np.matmul(X1, X2.T)
+    K = np.exp(-.5*dist_sqs/sig**2)
+    return K
+
+# # Collection of functions
+gp_sample_n = 50     # number of functions
+xs = np.linspace(0, 5, gp_sample_n).reshape([-1,1])
+
+# Posterior function generation
+tr_xs = x_data1.T
+tr_ys = y_data1.T
+
+k = GaussianKernel(tr_xs, xs)  # covariances
+K = GaussianKernel(tr_xs, tr_xs)
+invK = np.linalg.inv(K)
+
+m_fun = np.matmul(np.matmul(k.T, invK), tr_ys).T[0]
+k_fun = GaussianKernel(xs, xs) - np.matmul(np.matmul(k.T, invK), k)
+
+ys = np.random.multivariate_normal(m_fun, k_fun, gp_sample_n)
+
+# plt.scatter(tr_xs, tr_ys, s=1000)
+for i in range(gp_sample_n):
+    plt.plot(xs.T[0], ys[i], alpha=.3, c='k')
+plt.scatter(tr_xs, tr_ys, s=30, c='k', zorder=5)
+plt.show()
